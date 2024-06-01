@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const connectToMongo = (mongoURI) => {
-  mongoose.connect(mongoURI).then(()=>{
+const connectToMongo = (dbUri) => {
+  mongoose.connect(dbUri).then(()=>{
     console.log('DB connected')
   }).catch((err)=>console.error(err))
 }
