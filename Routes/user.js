@@ -7,7 +7,7 @@ const {
     handelCreateUsers,
     handelForgotUser,
     handelResetPassword,
-  } = require('../controllers/user');
+  } = require('../Controllers/user');
 
 router.get('/protected-route', authMiddleware, (req, res) => {
   res.send('This is a protected route');

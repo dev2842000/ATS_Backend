@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express')
 const bodyParser = require('body-parser')
 const {connectToMongo} = require('./connection')
-const userRouter = require('./routes/user')
+const userRouter = require('./Routes/user')
 const cors = require('cors');
 const port = 3000
 
