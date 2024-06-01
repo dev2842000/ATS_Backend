@@ -21,12 +21,10 @@ const handelLoginUser = async (req, res) => {
     });
 
     if (user && checkHashPassword(password, user.password)) {
-      
-      // Generate JWT
       const token = jwt.sign(
         { id: user._id, email: user.email },
-        'your_jwt_secret_key', // Use a secure secret key and store it in an environment variable
-        { expiresIn: '1h' } // Token expires in 1 hour
+        'your_jwt_secret_key',
+        { expiresIn: '1h' }
       );
 
       res.status(200).send({
@@ -54,7 +52,7 @@ async function handelCreateUsers(req, res) {
     
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).send("User already exists");
+      return res.status(409).send("User already exists");
     }
 
     const password = hashPassword(req.body.password);
