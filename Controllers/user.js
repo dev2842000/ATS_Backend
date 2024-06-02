@@ -71,6 +71,22 @@ async function handelCreateUsers(req, res) {
 
     const password = hashPassword(req.body.password);
     const newUser = await User.create({ firstName, lastName, email, password, phone });
+    const token = jwt.sign(
+      { id: newUser._id, email: newUser.email },
+      'your_jwt_secret_key',
+      { expiresIn: '1h' }
+    );
+
+    res.status(200).send({
+      user: {
+        id: newUser._id,
+        email: newUser.email,
+        phone: newUser.phone
+      },
+      token,
+      message: "User created successfully!"
+    });
+
     res.status(201).json(newUser);
   } catch (error) {
     console.error("Error:", error);

@@ -16,5 +16,4 @@ app.use(bodyParser.json());
 app.use('/',userRouter);
 
 app.listen(port, () => console.log(`app live on port ${port}`))
-console.log(process.env.isProduction, process.env.mongoURI, process.env.mongoDBProd);
 connectToMongo(process.env.isProduction === "false" ? process.env.mongoURI: process.env.mongoDBProd)
