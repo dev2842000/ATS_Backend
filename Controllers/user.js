@@ -3,16 +3,30 @@ require('dotenv').config();
 const { checkHashPassword, hashPassword } = require("../Utils/helper");
 const jwt = require('jsonwebtoken');
 
-async function handelGetAllUsers(req, res) {
+async function handleGetUsers(req, res) {
   try {
-    const userList = await User.find({});
-    res.status(200).json(userList);
+    const user = await User.findOne({ _id: req.body.userId }).select('firstName lastName email phone');
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+
+    const userDetails = {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phone: user.phone,
+    };
+
+    res.status(200).json(userDetails);
   } catch (error) {
-    res.status(500).send("Server error");
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Server error" });
   }
 }
 
-const handelLoginUser = async (req, res) => {
+async function handelLoginUser (req, res) {
   try {
     const { email, password } = req.body;
 
@@ -64,7 +78,6 @@ async function handelCreateUsers(req, res) {
   }
 }
 
-
 async function handelForgotUser(req, res) {
   try {
     const { email, password } = req.body;
@@ -84,7 +97,7 @@ async function handelResetPassword(req, res) {
 }
 
 module.exports = {
-  handelGetAllUsers,
+  handleGetUsers,
   handelLoginUser,
   handelCreateUsers,
   handelForgotUser,
